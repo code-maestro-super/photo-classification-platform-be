@@ -154,7 +154,3 @@ photo-classification-platform-be/
 - Check UPLOAD_DIR permissions
 - Verify MAX_FILE_SIZE setting
 - Ensure sufficient disk space
-
-## License
-
-See [LICENSE](LICENSE) file.
