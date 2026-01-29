@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: photo-classification
+data:
+  POSTGRES_DB: "photo_classification_db"
+  POSTGRES_USER: "user"
+  ALGORITHM: "HS256"
+  ACCESS_TOKEN_EXPIRE_MINUTES: "30"
+  UPLOAD_DIR: "./uploads"
+  MAX_FILE_SIZE: "10485760"
+  ALLOWED_FILE_TYPES: "image/jpeg,image/png,image/jpg"
+  LOG_LEVEL: "INFO"
+  DEBUG: "False"
+
