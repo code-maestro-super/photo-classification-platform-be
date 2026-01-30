@@ -3,9 +3,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.core.logging import logger
 from app.routers import submissions
-from app.core.database import engine, Base
+from app.core.database import Base
 
-Base.metadata.create_all(bind=engine)
+# Schema is managed by Alembic only (submissions table has FK to users table in user-service).
+# Do not call Base.metadata.create_all() here to avoid resolving cross-service FKs.
 
 app = FastAPI(
     title=settings.app_name,
@@ -15,7 +16,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.allowed_origins,
+    allow_origins=settings.allowed_origins_list,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

@@ -13,10 +13,10 @@ def ensure_upload_dir():
 
 
 def validate_file(file: UploadFile) -> None:
-    if file.content_type not in settings.allowed_file_types:
+    if file.content_type not in settings.allowed_file_types_list:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"File type not allowed. Allowed types: {', '.join(settings.allowed_file_types)}"
+            detail=f"File type not allowed. Allowed types: {', '.join(settings.allowed_file_types_list)}"
         )
 
 

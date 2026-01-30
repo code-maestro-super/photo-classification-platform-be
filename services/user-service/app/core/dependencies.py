@@ -22,14 +22,14 @@ async def get_current_user(
             headers={"WWW-Authenticate": "Bearer"},
         )
     
-    user_id: int = payload.get("sub")
-    if user_id is None:
+    sub = payload.get("sub")
+    if sub is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Could not validate credentials",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    
+    user_id = int(sub) if not isinstance(sub, int) else sub
     user = get_user_by_id(db, user_id=user_id)
     if user is None:
         raise HTTPException(

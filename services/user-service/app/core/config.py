@@ -12,8 +12,13 @@ class Settings(BaseSettings):
     algorithm: str = "HS256"
     access_token_expire_minutes: int = 30
     
-    allowed_origins: List[str] = ["http://localhost:3000", "http://localhost:8080"]
-    
+    # Comma-separated string from env; use .allowed_origins_list for CORS
+    allowed_origins: str = "http://localhost:3000,http://localhost:8080"
+
+    @property
+    def allowed_origins_list(self) -> List[str]:
+        return [origin.strip() for origin in self.allowed_origins.split(",") if origin.strip()]
+
     class Config:
         env_file = ".env"
         case_sensitive = False

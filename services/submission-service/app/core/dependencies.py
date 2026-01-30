@@ -12,16 +12,17 @@ def get_current_user_id(
     credentials: HTTPAuthorizationCredentials = Depends(security),
     db: Session = Depends(get_db)
 ) -> int:
-    token = credentials.credentials
+    token = credentials.credentials.strip()
     try:
         payload = jwt.decode(token, settings.secret_key, algorithms=[settings.algorithm])
-        user_id: int = payload.get("sub")
-        if user_id is None:
+        sub = payload.get("sub")
+        if sub is None:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Could not validate credentials",
                 headers={"WWW-Authenticate": "Bearer"},
             )
+        user_id = int(sub) if not isinstance(sub, int) else sub
         return user_id
     except JWTError:
         raise HTTPException(

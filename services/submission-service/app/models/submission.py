@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, Text, DateTime
 from sqlalchemy.sql import func
 from app.core.database import Base
 
@@ -7,7 +7,8 @@ class Submission(Base):
     __tablename__ = "submissions"
 
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
+    # user_id references users.id in DB (FK constraint); no ForeignKey() here so this service's metadata doesn't require users table
+    user_id = Column(Integer, nullable=False, index=True)
     name = Column(String, nullable=False)
     age = Column(Integer, nullable=False, index=True)
     place_of_living = Column(String, nullable=False, index=True)

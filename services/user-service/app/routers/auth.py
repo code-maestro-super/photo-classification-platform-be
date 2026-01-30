@@ -36,12 +36,14 @@ async def login(credentials: UserLogin, db: Session = Depends(get_db)):
         )
     
     access_token_expires = timedelta(minutes=settings.access_token_expire_minutes)
+    # JWT "sub" claim must be a string per python-jose validation (used by submission-service)
     access_token = create_access_token(
-        data={"sub": user.id, "email": user.email, "role": user.role.value},
+        data={"sub": str(user.id), "email": user.email, "role": user.role.value},
         expires_delta=access_token_expires
     )
-    
-    return {"access_token": access_token, "token_type": "bearer"}
+    # Ensure string for JSON (python-jose can return bytes in some backends)
+    token_str = access_token.decode("utf-8") if isinstance(access_token, bytes) else access_token
+    return {"access_token": token_str, "token_type": "bearer"}
 
 
 @router.get("/me", response_model=UserResponse)
