@@ -12,7 +12,7 @@ def get_current_admin(
     credentials: HTTPAuthorizationCredentials = Depends(security),
     db: Session = Depends(get_db)
 ) -> dict:
-    token = credentials.credentials
+    token = credentials.credentials.strip()
     try:
         payload = jwt.decode(token, settings.secret_key, algorithms=[settings.algorithm])
         user_role = payload.get("role")

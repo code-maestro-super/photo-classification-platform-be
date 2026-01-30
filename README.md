@@ -61,21 +61,25 @@ Repeat for other services on ports 8002, 8003, 8004.
 
 1. Build and start all services:
 ```bash
-docker-compose up -d
+docker compose build
+docker compose up -d
 ```
 
-2. Run database migrations:
+2. Run database migrations (after containers are up, ~10s):
 ```bash
-docker-compose exec user-service alembic upgrade head
-docker-compose exec submission-service alembic upgrade head
+docker compose exec user-service alembic upgrade head
+docker compose exec submission-service alembic upgrade head
 ```
 
-3. Access services:
+3. Access services (via API Gateway on port 80):
 - API Gateway: http://localhost
-- User Service: http://localhost:8001
-- Submission Service: http://localhost:8002
-- Classification Service: http://localhost:8003
-- Admin Service: http://localhost:8004
+- Health: http://localhost/health
+- Auth: http://localhost/api/v1/auth/
+- Submissions: http://localhost/api/v1/submissions
+- Classify: http://localhost/api/v1/classify
+- Admin: http://localhost/api/v1/admin/
+
+For detailed run and test steps on Ubuntu, see [docs/TESTING.md](docs/TESTING.md).
 
 ### Kubernetes Deployment
 
@@ -109,7 +113,11 @@ alembic upgrade head
 
 ## Testing
 
-Run tests:
+**Run the stack and smoke-test:** see [docs/TESTING.md](docs/TESTING.md) for Ubuntu run steps and API checks.
+
+**Full user journey and admin panel:** see [docs/FULL_WORKFLOW.md](docs/FULL_WORKFLOW.md) for step-by-step commands (register, login, submit with photo, classification, admin list/filter/view).
+
+**Unit/integration tests:**
 ```bash
 pip install -r requirements-dev.txt
 pytest
