@@ -1,5 +1,4 @@
 # Architecture Overview
-
 ## System Architecture
 
 The Photo Classification Platform is built using a microservices architecture with four independent services communicating via HTTP/REST APIs.
@@ -36,35 +35,6 @@ The Photo Classification Platform is built using a microservices architecture wi
 ## Data Flow
 
 ```
-User Request
-    ↓
-Nginx (API Gateway)
-    ↓
-┌─────────────────────────────────────┐
-│  User Service                       │
-│  - Register/Login                   │
-│  - JWT Token Generation             │
-└─────────────────────────────────────┘
-    ↓
-┌─────────────────────────────────────┐
-│  Submission Service                 │
-│  - Photo Upload                     │
-│  - Metadata Storage                 │
-│  - Classification Request           │
-└─────────────────────────────────────┘
-    ↓
-┌─────────────────────────────────────┐
-│  Classification Service             │
-│  - Image Processing                 │
-│  - Classification Result            │
-└─────────────────────────────────────┘
-    ↓
-┌─────────────────────────────────────┐
-│  Admin Service                      │
-│  - Filter & Search                  │
-│  - View Submissions                 │
-└─────────────────────────────────────┘
-```
 
 ## Communication Patterns
 
@@ -82,17 +52,6 @@ Nginx (API Gateway)
 ## Deployment Architecture
 
 ### Docker Compose (Development)
-```
-┌─────────────┐
-│   Nginx     │ (Port 80)
-└──────┬──────┘
-       │
-   ┌───┴───┬──────────┬──────────────┬──────────┐
-   │       │          │              │          │
-┌──▼──┐ ┌──▼──┐   ┌──▼──┐       ┌──▼──┐   ┌──▼──┐
-│User │ │Sub  │   │Class│       │Admin│   │Post │
-│     │ │     │   │     │       │     │   │gres │
-└─────┘ └─────┘   └─────┘       └─────┘   └─────┘
 ```
 
 ### Kubernetes (Production)
